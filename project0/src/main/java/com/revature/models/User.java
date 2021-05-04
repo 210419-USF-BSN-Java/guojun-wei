@@ -2,6 +2,12 @@ package com.revature.models;
 
 public class User {
 	@Override
+	public String toString() {
+		return "userId= " + userId + " firstName= " + firstName + " lastName= " + lastName + " userName= "
+				+ userName + " password= " + password + " type= " + type + "\r\n" ;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

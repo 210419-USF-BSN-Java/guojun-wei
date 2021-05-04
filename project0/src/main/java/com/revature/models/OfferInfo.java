@@ -3,6 +3,61 @@ package com.revature.models;
 import java.util.Date;
 
 public class OfferInfo {
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+		result = prime * result + ((offerId == null) ? 0 : offerId.hashCode());
+		result = prime * result + ((paymentStatus == null) ? 0 : paymentStatus.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OfferInfo other = (OfferInfo) obj;
+		if (itemId == null) {
+			if (other.itemId != null)
+				return false;
+		} else if (!itemId.equals(other.itemId))
+			return false;
+		if (offerId == null) {
+			if (other.offerId != null)
+				return false;
+		} else if (!offerId.equals(other.offerId))
+			return false;
+		if (paymentStatus == null) {
+			if (other.paymentStatus != null)
+				return false;
+		} else if (!paymentStatus.equals(other.paymentStatus))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (timeStamp == null) {
+			if (other.timeStamp != null)
+				return false;
+		} else if (!timeStamp.equals(other.timeStamp))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
+	}
+
 	private Integer offerId;
 	private Integer userId;
 	private Integer itemId;
@@ -60,8 +115,8 @@ public class OfferInfo {
 
 	@Override
 	public String toString() {
-		return "OfferInfo [offerId=" + offerId + ", userId=" + userId + ", itemId=" + itemId + ", price=" + price
-				+ ", paymentStatus=" + paymentStatus + ", timeStamp=" + timeStamp + "]";
+		return "offerId= " + offerId + " userId=" + userId + " itemId= " + itemId + " price= " + price
+				+ " paymentStatus= " + paymentStatus + " timeStamp= " + timeStamp +  "\r\n";
 	}
 	
 	

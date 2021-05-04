@@ -26,6 +26,30 @@ private OfferInfoDAO offerD;
 		OfferInfo offer = offerD.add(o);
 		return offer;
 	}
+
+	@Override
+	public List<OfferInfo> getOfferByStatus(Integer status) {
+		List<OfferInfo> offers = offerD.getOfferByStatus(status);
+		return offers;
+	}
+
+	@Override
+	public Boolean update(Integer offerID, Integer itemID) {
+		Boolean update = offerD.update(offerID, itemID);
+		return update;
+	}
+	
+	@Override
+	public Boolean updatePayment(Integer status, Integer userID, Integer itemID) {
+		Boolean updatePay = offerD.updatePayment(status, userID, itemID);
+		return updatePay;
+	}
+
+	@Override
+	public Integer calWeeklyPayment() {
+		Integer weeklyPayment = offerD.calWeeklyPayment();
+		return weeklyPayment;
+	}
 	
 	
 }

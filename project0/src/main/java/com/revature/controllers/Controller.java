@@ -3,6 +3,9 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.DAOs.OfferInfoDAOPostgres;
 import com.revature.models.Item;
 import com.revature.models.OfferInfo;
@@ -27,6 +30,10 @@ public class Controller {
 	
 	//Scanner sc = new Scanner(System.in);
 	
+	private static Scanner sc = new Scanner(System.in);
+	
+	private static Logger logger = LogManager.getLogger(Controller.class);
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
@@ -44,13 +51,16 @@ public class Controller {
 
 	public static void userLogin(String userInput, Scanner sc) {
 		if (userInput.equals("1")) {
+			logger.info("This is information message");
 			//verify customer login
 			userInfo(sc);
 		} else if (userInput.equals("2")) {
 			//register customer login
+			logger.info("new user registration");
 			userRegistration(sc);
 		} else {
 			System.out.println("illegal input, please reentry!");
+			logger.error("This is an error message");
 			System.out.println();
 			menu(sc);
 		}
@@ -99,6 +109,7 @@ public class Controller {
 		System.out.println("press 2 to make an offer for an item");
 		System.out.println("press 3 to view the item that I own");
 		System.out.println("press 4 to make a payment");
+		System.out.println("press 5 to exit");
 		String userInput = sc.nextLine();
 		customerOp(userInput, sc);
 		
@@ -106,20 +117,40 @@ public class Controller {
 
 	private static void customerOp(String userInput, Scanner sc) {
 		if (userInput.equals("1")) {
-			viewItems();
+			viewItems(sc);
 		} else if (userInput.equals("2")) {
 			makeOffer(sc);
 		} else if (userInput.equals("3")) {
-			
+			viewOwnedItems(sc);
 		} else if (userInput.equals("4")) {
-			
+			makePayments(sc);
+		} else if (userInput.equals("5")){
+			System.exit(0);
 		} else {
-			
+			System.out.println("illegal input");
+			customerUI(sc);
 		}
 		
 	}
 
 	
+	private static void makePayments(Scanner sc) {
+		System.out.println("This is what you own! ");
+		List<Item> items = itemService.getOwnedItems(2, user.getUserId());
+		System.out.println(items);
+		System.out.println("Please enter the itemID that you want to pay ");
+		Integer itemID = Integer.parseInt(sc.nextLine());
+		Boolean updatePay = offerService.updatePayment(4, user.getUserId(), itemID);
+		//Boolean updatePay = itemService.updatePayment(4, user.getUserId(), itemID);
+		System.out.println("Payment done!");
+	}
+
+	private static void viewOwnedItems(Scanner sc) {
+		System.out.println("This is what you own! ");
+		List<Item> items = itemService.getOwnedItems(2, user.getUserId());
+		System.out.println(items);
+	}
+
 	private static void makeOffer(Scanner sc) {
 		System.out.println("These stars are available!");
 		//see which item is available
@@ -138,12 +169,15 @@ public class Controller {
 		Double price = Double.parseDouble(sc.nextLine());
 		OfferInfo offer = new OfferInfo(null, user.getUserId(), itemID, price, 1, null);
 		offerService.add(offer);
-		
+		System.out.println("Offer has been made!");
+		customerUI(sc);
 	}
 
-	private static void viewItems() {
+	private static void viewItems(Scanner sc) {
 		items = itemService.getAvailableItem(true);
 		System.out.println(items);
+		System.out.println();
+		customerUI(sc);
 	}
 
 	public static void employeeUI(Scanner sc) {
@@ -151,9 +185,10 @@ public class Controller {
 		System.out.println();
 		System.out.println("press 1 to add an item to the shop ");
 		System.out.println("press 2 to remove an item from the shop ");
-		System.out.println("press 3 to view all payments");
-		System.out.println("press 4 to accept or reject a pending offer for an item ");
+		System.out.println("press 3 to accept or reject a pending offer for an item ");
+		System.out.println("press 4 to view all payments");
 		System.out.println("press 5 to edit existing items");
+		System.out.println("press 6 to exit");
 		String userInput = sc.nextLine();
 		employeeOp(userInput, sc);
 	}
@@ -166,16 +201,36 @@ public class Controller {
 		} else if (userInput.equals("3")) {
 			acceptOrRejectOffer(sc);
 		} else if (userInput.equals("4")) {
-			
-		} else {
-			
+			viewAllOffersEmployee(sc);
+		} else if (userInput.equals("5")){
+			System.out.println("STILL WORKING ON IT");
+		} else if ((userInput.equals("6"))) {
+			System.exit(0);
 		}
 		
 	}
 
+	private static void viewAllOffersEmployee(Scanner sc) {
+		OfferInfoDAOPostgres offerInfos = new OfferInfoDAOPostgres();
+		System.out.println(offerInfos.getAll());	
+		employeeUI(sc);
+	}
+
 	private static void acceptOrRejectOffer(Scanner sc) {
-		offerService.getAll();
-		
+		System.out.println("The pending offers are listed below:");
+		List<OfferInfo> pendingOffers = offerService.getOfferByStatus(1);
+		System.out.println(pendingOffers);
+		System.out.println("Accept offer by offerID and itemID ");
+		System.out.println("offerID: ");
+		Integer offerID = Integer.parseInt(sc.nextLine());
+		System.out.println("itemID: ");
+		Integer itemID = Integer.parseInt(sc.nextLine());
+		//update offer_info table payment status
+		Boolean updateOfferTable = offerService.update(offerID, itemID);
+		//update item table availability false
+		Boolean updateItemTable = itemService.update(false, itemID);
+		System.out.println("table updated! ");
+		employeeUI(sc);
 	}
 
 	private static void addItem(Scanner sc) {
@@ -183,21 +238,27 @@ public class Controller {
 		String itemName = sc.nextLine();
 		item = new Item(null, itemName, true, null);
 		itemService.addItem(item);
+		System.out.println("item successfully added!");
+		employeeUI(sc);
 	}
 	
 	private static void removeItem(Scanner sc) {
 		System.out.println("item id: ");
 		Integer itemID = Integer.parseInt(sc.nextLine());
-		Integer x = itemService.deleteItem(itemID);
-		//System.out.println("check point! ");
+		Boolean bool  = itemService.deleteItem(itemID);
+		System.out.println("item removed! ");
+		employeeUI(sc);
 	}
 
 	public static void managerUI(Scanner sc) {
 		System.out.println("Welcome back! " + user.getUserName() + " , what would you like to do?");
 		System.out.println();
+		Integer pay = offerService.calWeeklyPayment();
+		System.out.println("WEEKLY PAYMENT IS $" + pay + " !");
 		System.out.println("press 1 to make employee accounts ");
 		System.out.println("press 2 to fire employees ");
 		System.out.println("press 3 to view sales of history of all offers ");
+		System.out.println("press 4 exit ");
 		String userInput = sc.nextLine();
 		managerOp(userInput, sc);
 	}
@@ -208,22 +269,28 @@ public class Controller {
 		} else if (userInput.equals("2")) {
 			removeEmployee(sc);
 		} else if (userInput.equals("3")) {
-			viewAllOffers();
+			viewAllOffersManager(sc);
+		} else if (userInput.equals("4")){
+			System.exit(0);
 		} else {
-			
+			System.out.println("illegal input! ");
+			managerUI(sc);
 		}
 		
 	}
 
-	private static void viewAllOffers() {
-		OfferInfoDAOPostgres offerInfos = new OfferInfoDAOPostgres();
-		System.out.println(offerInfos.getAll());	
+	private static void viewAllOffersManager(Scanner sc) {
+		//OfferInfoDAOPostgres offerInfos = new OfferInfoDAOPostgres();
+		System.out.println(offerService.getAll());	
+		managerUI(sc);
 	}
 
 	private static void removeEmployee(Scanner sc) {
 		System.out.println("employee id: ");
 		Integer employeeID = Integer.parseInt(sc.nextLine());
-		Integer x = userService.deleteEmployee(employeeID);
+		Boolean bool = userService.deleteEmployee(employeeID);
+		System.out.println("Employee successfully deleted! ");
+		managerUI(sc);
 	}
 
 	private static void addEmployee(Scanner sc) {
@@ -238,6 +305,7 @@ public class Controller {
 		user = new User(null, firstName, lastName, userName,password, 2);
 		userService.addEmployee(user);
 		System.out.println("DONE! ");
+		managerUI(sc);
 	}
 
 }

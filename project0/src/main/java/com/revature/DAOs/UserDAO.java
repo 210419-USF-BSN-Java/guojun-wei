@@ -4,6 +4,11 @@ import com.revature.models.User;
 
 public interface UserDAO extends GenericDAO<User>{
 
-	Integer deleteEmployee(Integer employeeID);
+	Boolean deleteEmployee(Integer employeeID);
 	
+	public User add(User u);
+	
+	public User getByUserName(String userName);
+	
+	public User addEmployee(User u);
 }

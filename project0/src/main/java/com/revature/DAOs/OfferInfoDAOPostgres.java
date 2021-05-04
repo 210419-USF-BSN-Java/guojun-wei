@@ -72,9 +72,21 @@ public class OfferInfoDAOPostgres implements OfferInfoDAO{
 	}
 
 	@Override
-	public Integer update(OfferInfo t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean update(Integer offerID, Integer itemID) {
+		Boolean result = false;
+		String sql = "update offer_info set payment_status = 3 where item_id = ?;\r\n"
+				+ "update offer_info set payment_status = 2 where offer_id = ?;";
+		try (Connection con = ConnectionUtil.getConnectionFromEnv()){
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, itemID);
+			ps.setInt(2, offerID);
+			ps.executeUpdate();
+			result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
@@ -124,4 +136,52 @@ public class OfferInfoDAOPostgres implements OfferInfoDAO{
 		
 		return offers;
 	}
+
+	@Override
+	public Integer update(OfferInfo t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Boolean updatePayment(Integer status, Integer userID, Integer itemID) {
+		Boolean result = false;
+		String sql = "update offer_info set payment_status = ? where user_id = ? and item_id = ?;";
+		try (Connection con = ConnectionUtil.getConnectionFromEnv()){
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, status);
+			ps.setInt(2, userID);
+			ps.setInt(3, itemID);
+			ps.executeUpdate();
+			result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public Integer calWeeklyPayment() {
+		Integer result = 0;
+		String sql = "select sum(price) as weekly_payment\r\n"
+				+ "from offer_info\r\n"
+				+ "where offer_time > current_date - interval '7 days' \r\n"
+				+ "and payment_status = 4;";
+		try {
+			Connection con = ConnectionUtil.getConnectionFromEnv();
+			PreparedStatement ps = con.prepareStatement(sql);
+//			ps.setInt(1, status);
+//			ps.setInt(2, userID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				result = rs.getInt("weekly_payment");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }

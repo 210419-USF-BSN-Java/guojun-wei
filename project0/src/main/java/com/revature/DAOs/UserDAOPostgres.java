@@ -127,13 +127,15 @@ public class UserDAOPostgres implements UserDAO{
 	}
 
 	@Override
-	public Integer deleteEmployee(Integer employeeID) {
-		Integer result = 0;
+	public Boolean deleteEmployee(Integer employeeID) {
+		Boolean result = false;
 		String sql = "delete from user_info where user_id = ?;";
 		try (Connection con = ConnectionUtil.getConnectionFromEnv()){
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, employeeID);
-			result = ps.executeUpdate();
+			
+			ps.executeUpdate();
+			result = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -61,13 +61,14 @@ public class ItemDAOPostgres implements ItemDAO{
 	}
 
 	@Override
-	public Integer delete(Integer id) {
-		Integer result = 0;
+	public Boolean delete(Integer id) {
+		Boolean result = false;
 		String sql = "delete from items where item_id = ?;";
 		try (Connection con = ConnectionUtil.getConnectionFromEnv()){
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, id);
-			result = ps.executeUpdate();
+			ps.executeUpdate();
+			result = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,5 +111,69 @@ public class ItemDAOPostgres implements ItemDAO{
 			e.printStackTrace();
 		}
 		return items;
+	}
+	
+	@Override
+	public Boolean update(Boolean bool, Integer itemID) {
+		Boolean result = false;
+		String sql = "update items set availability = ? where item_id = ?;";
+		try (Connection con = ConnectionUtil.getConnectionFromEnv()){
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setBoolean(1, bool);
+			ps.setInt(2, itemID);
+			ps.executeUpdate();
+			result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Item> getOwnedItems(Integer status, Integer userID) {
+		List<Item> items = new ArrayList<>();
+		String sql = "select items.item_id, items.item_name, items.availability, items.item_time \r\n"
+				+ "from items \r\n"
+				+ "join offer_info\r\n"
+				+ "on items.item_id = offer_info.item_id \r\n"
+				+ "where offer_info.payment_status = ? and offer_info.user_id = ?;";
+
+		try {
+			Connection con = ConnectionUtil.getConnectionFromEnv();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, status);
+			ps.setInt(2, userID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				items.add(new Item(rs.getInt("item_id"), 
+						rs.getString("item_name"), 
+						rs.getBoolean("availability"),
+						rs.getTimestamp("item_time")
+						));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return items;
+	}
+
+	@Override
+	public Boolean updatePayment(Integer status, Integer userID, Integer itemID) {
+		Boolean result = false;
+		String sql = "update offer_info set payment_status = ? where user_id = ? and item_id = ?;";
+		try (Connection con = ConnectionUtil.getConnectionFromEnv()){
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, status);
+			ps.setInt(2, userID);
+			ps.setInt(3, itemID);
+			ps.executeUpdate();
+			result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

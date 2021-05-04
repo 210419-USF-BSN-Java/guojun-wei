@@ -10,7 +10,13 @@ public interface ItemService {
 
 	Item addItem(Item t);
 	
-	Integer deleteItem(Integer id);
+	Boolean deleteItem(Integer id);
 
 	List<Item> getAvailableOfferList(Integer id);
+	
+	Boolean update(Boolean bool, Integer itemID);
+	
+	List<Item> getOwnedItems(Integer status, Integer userID);
+	
+	Boolean updatePayment(Integer status, Integer userID, Integer itemID);
 }

@@ -26,14 +26,32 @@ public class ItemServiceImplementation implements ItemService{
 	}
 
 	@Override
-	public Integer deleteItem(Integer id) {
-		Integer num = itemD.delete(id);
-		return num;
+	public Boolean deleteItem(Integer id) {
+		Boolean res = itemD.delete(id);
+		return res;
 	}
 
 	@Override
 	public List<Item> getAvailableOfferList(Integer id){
 		List<Item> items = itemD.getAvailableOfferList(id);
 		return items;
+	}
+
+	@Override
+	public Boolean update(Boolean bool, Integer itemID) {
+		Boolean x = itemD.update(bool, itemID);
+		return x;
+	}
+
+	@Override
+	public List<Item> getOwnedItems(Integer status, Integer userID) {
+		List<Item> items = itemD.getOwnedItems(status, userID);
+		return items;
+	}
+
+	@Override
+	public Boolean updatePayment(Integer status, Integer userID, Integer itemID) {
+		Boolean updatePay = itemD.updatePayment(status, userID, itemID);
+		return updatePay;
 	}
 }

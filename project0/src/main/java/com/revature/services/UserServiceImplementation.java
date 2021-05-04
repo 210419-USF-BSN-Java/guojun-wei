@@ -22,17 +22,19 @@ public class UserServiceImplementation implements UserService{
 	}
 	
 	@Override
-	public void registration(User user) {
+	public User registration(User user) {
 		User newRegister = ud.add(user);
+		return newRegister;
 	}
 
 	@Override
-	public void addEmployee(User user) {
+	public User addEmployee(User user) {
 		User newEmployee = ud.addEmployee(user);
+		return newEmployee;
 	}
 
-	public Integer deleteEmployee(Integer employeeID) {
-		Integer num = ud.deleteEmployee(employeeID);
-		return num;
+	public Boolean deleteEmployee(Integer employeeID) {
+		Boolean result = ud.deleteEmployee(employeeID);
+		return result;
 	}
 }
