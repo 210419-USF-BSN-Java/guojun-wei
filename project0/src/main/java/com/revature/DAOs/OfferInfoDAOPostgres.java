@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.revature.models.Count;
 import com.revature.models.Item;
 import com.revature.models.OfferInfo;
 
@@ -162,12 +163,12 @@ public class OfferInfoDAOPostgres implements OfferInfoDAO{
 	}
 
 	@Override
-	public Integer calWeeklyPayment() {
-		Integer result = 0;
-		String sql = "select sum(price) as weekly_payment\r\n"
-				+ "from offer_info\r\n"
-				+ "where offer_time > current_date - interval '7 days' \r\n"
-				+ "and payment_status = 4;";
+	public List<Count> calWeeklyPayment() {
+		List<Count> result = new ArrayList<>();
+		String sql = "select to_char (offer_time, 'yyyy-ww') weeks, sum(price) \r\n"
+				+ "from offer_info \r\n"
+				+ "where payment_status = 4 \r\n"
+				+ "group by weeks; ";
 		try {
 			Connection con = ConnectionUtil.getConnectionFromEnv();
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -175,7 +176,9 @@ public class OfferInfoDAOPostgres implements OfferInfoDAO{
 //			ps.setInt(2, userID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				result = rs.getInt("weekly_payment");
+				String weekNo = rs.getString("weeks");
+				Double payment = rs.getDouble("sum");
+				result.add(new Count(weekNo, payment));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

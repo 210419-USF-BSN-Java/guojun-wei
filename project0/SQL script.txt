@@ -1,0 +1,95 @@
+create table items (
+	item_id serial primary key,
+	item_name varchar(100) not null,
+	availability boolean not null
+	--item_time timestamp not null
+);
+ALTER TABLE items ADD COLUMN item_time timestamp with time zone default now();
+
+create table user_info (
+	user_id serial primary key,
+	user_first_name varchar(100) not null,
+	user_last_name varchar(100) not null,
+	user_name varchar(100) not null,
+	user_pwd varchar(100) not null,
+	user_type integer not null
+);
+
+-- CREATE UNIQUE INDEX uni_user_info_pass ON user_table(pass);
+create table offer_info (
+	offer_id serial primary key,
+	user_id integer not null,
+	item_id integer not null,
+	price numeric (8, 1) not null,
+	payment_status integer not null
+	--offer_time timestamp not null
+);
+ALTER TABLE offer_info ADD COLUMN offer_time timestamp with time zone default now();
+
+insert into user_info (user_first_name, user_last_name , user_name, user_pwd, user_type) values ('Brigg', 'Durbann', 'bdurbann0', '1BVhAhiRrvrQ278RGJ9mpzhZoaPSiV1CSv', 3);
+insert into user_info (user_first_name, user_last_name , user_name, user_pwd, user_type) values ('Dasi', 'Olman', 'theBest', '789', 3);
+insert into user_info (user_first_name, user_last_name , user_name, user_pwd, user_type) values ('John', 'Smith', 'luffy', '456', 2);
+insert into user_info (user_first_name, user_last_name , user_name, user_pwd, user_type) values ('John', 'Doe', 'customerOne', 'password', 1);
+
+
+insert into items (item_name, availability) values ('Wayne Rooney', true);
+insert into items (item_name, availability) values ('Sadio Mane', true);
+insert into items (item_name, availability) values ('Lionel Messi', false);
+insert into items (item_name, availability) values ('Michael Owen', false);
+insert into items (item_name, availability) values ('no body', false);
+
+insert into offer_info (user_id, item_id, price, payment_status) values (14, 1, 100.0, 1); -- userid 14 offer 100 dollars for item 1, pending
+insert into offer_info (user_id, item_id, price, payment_status) values (7, 1, 150.0, 1); -- userid 7 offer 150 dollars for item 1, pending
+insert into offer_info (user_id, item_id, price, payment_status) values (6, 2, 200.0, 1); -- userid 6 offer 200 dollars for item 2, pending
+
+select * from offer_info where payment_status = 1;
+
+update offer_info set payment_status = 3 where item_id = 1;
+update offer_info set payment_status = 2 where offer_id = 6;
+
+update offer_info set payment_status = 1 where item_id = 1;
+
+update items set availability = false where item_id = 1;
+update items set availability = true where item_id = 1;
+
+update offer_info set payment_status = 2 where user_id = 15 and item_id = 1;
+
+
+--past 7 days price sum
+select sum(price) as weekly_payment
+from offer_info
+where offer_time > current_date - interval '7 days' 
+and payment_status = 4;
+
+--weekly price sum
+select to_char (offer_time, 'yyyy-ww') weeks, sum(price) 
+from offer_info 
+where payment_status = 4 
+group by weeks; 
+
+--test
+select to_char(to_date('2021-3-22', 'yyyy-mm-dd'), 'yyyy-ww') as weeks, price
+from offer_info 
+where payment_status = 4;
+--group by weeks;
+
+
+select items.item_id, items.item_name, items.availability, items.item_time 
+from items 
+join offer_info
+on items.item_id = offer_info.item_id 
+where offer_info.payment_status = 2 and offer_info.user_id = 15;
+--find item id and name for customer who has not made an offer to 
+--select items.item_id, items.item_name 
+select *
+from items
+where availability 
+and items.item_id 
+not in 
+(select items.item_id 
+from items 
+join offer_info 
+on items.item_id = offer_info.item_id 
+where offer_info.user_id = 14);
+--test
+select * from items join offer_info on items.item_id = offer_info.item_id where offer_info.user_id = 14;

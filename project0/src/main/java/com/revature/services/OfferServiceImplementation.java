@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.DAOs.OfferInfoDAO;
 import com.revature.DAOs.OfferInfoDAOPostgres;
+import com.revature.models.Count;
 import com.revature.models.OfferInfo;
 
 public class OfferServiceImplementation implements OfferService{
@@ -46,8 +47,8 @@ private OfferInfoDAO offerD;
 	}
 
 	@Override
-	public Integer calWeeklyPayment() {
-		Integer weeklyPayment = offerD.calWeeklyPayment();
+	public List<Count> calWeeklyPayment() {
+		List<Count> weeklyPayment = offerD.calWeeklyPayment();
 		return weeklyPayment;
 	}
 	

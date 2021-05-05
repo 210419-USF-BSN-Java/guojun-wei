@@ -13,7 +13,7 @@ import com.revature.models.Item;
 import util.ConnectionUtil;
 
 public class ItemDAOPostgres implements ItemDAO{
-
+	
 	@Override
 	public List<Item> getAvailability(boolean available) {
 		List<Item> items = new ArrayList<>();

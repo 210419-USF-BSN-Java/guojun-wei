@@ -1,1 +1,35 @@
-[INFO ] 2021-05-04 00:15:00.109 [main] Controller - This is information message
+[INFO ] 2021-05-04 21:36:18.688 [main] Controller - exit
+[INFO ] 2021-05-04 21:36:38.606 [main] Controller - new user registration
+[INFO ] 2021-05-04 21:41:22.503 [main] Controller - new user registration
+[INFO ] 2021-05-04 21:43:43.794 [main] Controller - This is information message
+[INFO ] 2021-05-04 21:43:50.104 [main] Controller - Entering information message
+[INFO ] 2021-05-04 21:43:50.158 [main] Controller - enter managerUI
+[INFO ] 2021-05-04 21:44:06.200 [main] Controller - enter addEmployee
+[INFO ] 2021-05-04 22:07:00.972 [main] Controller - This is information message
+[INFO ] 2021-05-04 22:07:08.349 [main] Controller - Entering information message
+[INFO ] 2021-05-04 22:07:08.571 [main] Controller - enter managerUI
+[INFO ] 2021-05-04 22:07:14.783 [main] Controller - enter addEmployee
+[INFO ] 2021-05-04 22:07:35.812 [main] Controller - enter removeEmployee
+[INFO ] 2021-05-04 22:09:14.857 [main] Controller - This is information message
+[INFO ] 2021-05-04 22:13:32.948 [main] Controller - Entering information message
+[INFO ] 2021-05-04 22:13:33.111 [main] Controller - enter customerUI
+[INFO ] 2021-05-04 22:13:42.124 [main] Controller - enter viewItems
+[INFO ] 2021-05-04 22:14:18.971 [main] Controller - enter makeOffer
+[INFO ] 2021-05-04 22:16:17.467 [main] Controller - enter makePayments
+[INFO ] 2021-05-04 22:28:05.637 [main] Controller - This is information message
+[INFO ] 2021-05-04 22:28:12.722 [main] Controller - Entering information message
+[INFO ] 2021-05-04 22:28:12.866 [main] Controller - enter managerUI
+[INFO ] 2021-05-04 22:28:16.313 [main] Controller - enter viewAllOfferManager
+[INFO ] 2021-05-04 22:45:50.621 [main] Controller - This is information message
+[INFO ] 2021-05-04 23:10:27.708 [main] Controller - Entering information message
+[INFO ] 2021-05-04 23:10:27.902 [main] Controller - enter employeeUI
+[INFO ] 2021-05-04 23:11:13.550 [main] Controller - enter addItem
+[INFO ] 2021-05-04 23:13:08.452 [main] Controller - enter removeItem
+[INFO ] 2021-05-04 23:13:56.772 [main] Controller - enter acceptOrRejectOffer
+[INFO ] 2021-05-04 23:20:48.871 [main] Controller - This is information message
+[INFO ] 2021-05-04 23:20:52.250 [main] Controller - Entering information message
+[ERROR] 2021-05-04 23:20:57.713 [main] Controller - This is an error message
+[INFO ] 2021-05-04 23:21:03.026 [main] Controller - This is information message
+[INFO ] 2021-05-04 23:21:14.705 [main] Controller - Entering information message
+[INFO ] 2021-05-04 23:21:14.706 [main] Controller - enter customerUI
+[INFO ] 2021-05-04 23:21:19.233 [main] Controller - enter viewOwnedItems

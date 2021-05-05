@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.util.List;
 
+import com.revature.models.Count;
 import com.revature.models.OfferInfo;
 
 public interface OfferService {
@@ -15,5 +16,5 @@ public interface OfferService {
 	
 	Boolean updatePayment(Integer status, Integer userID, Integer itemID);
 	
-	Integer calWeeklyPayment();
+	List<Count> calWeeklyPayment();
 }

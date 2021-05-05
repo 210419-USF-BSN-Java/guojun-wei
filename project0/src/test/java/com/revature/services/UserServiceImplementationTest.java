@@ -106,20 +106,26 @@ public class UserServiceImplementationTest {
 	}
 	
 //	@Test
-//	public void testViewOwnedItems1() {
+//	public void testViewOwnedItems() {
+//		Boolean bool = false;
 //		ItemServiceImplementation itemServe = new ItemServiceImplementation();
-//		Item item1 = new Item(101, "testOwnedItems1", true, null);
-//		Item item2 = new Item(102, "testOwnedItems2", true, null);
-//		itemServe.addItem(item1);
-//		itemServe.addItem(item2);
-//		OfferInfo offer1 = new OfferInfo(402, 335, 101, 2001.0, 2, null);
-//		OfferInfo offer2 = new OfferInfo(403, 335, 102, 1001.0, 1, null);
+//		Item item1 = new Item(null, "testOwnedItems1", true, null);
+//		Item item2 = new Item(null, "testOwnedItems2", true, null);
+//		Integer item1ID = itemServe.addItem(item1).getItemId();
+//		Integer item2ID = itemServe.addItem(item2).getItemId();
+//		OfferInfo offer1 = new OfferInfo(null, 335, item1ID, 2001.0, 2, null);
+//		OfferInfo offer2 = new OfferInfo(null, 335, item2ID, 1001.0, 1, null);
 //		OfferServiceImplementation offerServe = new OfferServiceImplementation();
+//		OfferInfo tmp = offerServe.add(offer1);
+//		tmp.setPaymentStatus(2);
 //		offerServe.add(offer2);
-//		offerServe.add(offer1);
 //		List<Item> items = itemServe.getOwnedItems(2, 335);
-//		//boolean bool = (101 == items.get(0).getItemId());
-//		assertEquals("testOwnedItems1", items.get(items.size() - 1).getItemName());	
+//		for (Item item: items) {
+//			if (item.getItemId().equals(item1ID)) {
+//				bool = true;
+//			}
+//		}
+//		assertTrue(bool);
 //	}
 	
 	@Test
