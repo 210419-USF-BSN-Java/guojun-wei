@@ -33,3 +33,10 @@
 [INFO ] 2021-05-04 23:21:14.705 [main] Controller - Entering information message
 [INFO ] 2021-05-04 23:21:14.706 [main] Controller - enter customerUI
 [INFO ] 2021-05-04 23:21:19.233 [main] Controller - enter viewOwnedItems
+[INFO ] 2021-05-05 09:24:27.889 [main] Controller - This is information message
+[INFO ] 2021-05-05 09:27:24.337 [main] Controller - This is information message
+[INFO ] 2021-05-05 09:27:42.393 [main] Controller - This is information message
+[INFO ] 2021-05-05 09:29:52.645 [main] Controller - Entering information message
+[INFO ] 2021-05-05 09:29:52.826 [main] Controller - enter managerUI
+[INFO ] 2021-05-15 01:56:32.406 [main] Controller - This is information message
+[INFO ] 2021-05-15 01:56:51.749 [main] Controller - Entering information message
